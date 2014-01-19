@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Core\Game\GameContainer.cs" />
      <Compile Include="Assets\Scripts\Core\Game\GameCore.cs" />
      <Compile Include="Assets\Scripts\Core\Game\GameEvent.cs" />
+     <Compile Include="Assets\Scripts\Core\Game\GameType.cs" />
      <Compile Include="Assets\Scripts\Core\GameControllers\ClientController.cs" />
      <Compile Include="Assets\Scripts\Core\GameControllers\GameController.cs" />
      <Compile Include="Assets\Scripts\Core\GameControllers\IGameController.cs" />

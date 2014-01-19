@@ -17,32 +17,47 @@ public class GameContainer
 		Initialized = false;
 	}
 	
-	private void Initialize(bool isServer)
+	private void Initialize()
 	{
 		TextureContainer = new TextureContainer ();
 		BallFactory = new BallFactory (TextureContainer);
-		BallManager = new BallManager (BallFactory);
-		
-		GameCore = new GameCore (BallManager);//use ball manager
+		BallManager = new BallManager (BallFactory);		
+		GameCore = new GameCore (BallManager);
 		EventFactory = new EventFactory (GameCore);
-		var baseController = new GameController (GameCore, EventFactory);
-		GameController = isServer
-			? new ServerController (baseController) as IGameController
-				: new ClientController (baseController) as IGameController;
-		
+		GameController = GetGameController (SelectedGameType);		
 		Environment = new Environment (GameController, EventFactory);
 		
 		Initialized = true;
 	}
+
+	private IGameController GetGameController(GameType gameType)
+	{
+		var baseController = new GameController (GameCore, EventFactory);
+
+		if (gameType == GameType.Single)
+			return baseController;
+		else
+			return gameType == GameType.Server
+				? new ServerController (baseController) as IGameController
+				: new ClientController (baseController) as IGameController;
+	}
+
+	public void StartSingle()
+	{
+		SelectedGameType = GameType.Single;
+		Initialize ();
+	}
 	
 	public void StartServer()
 	{
-		Initialize (true);
+		SelectedGameType = GameType.Server;
+		Initialize ();
 	}
 	
 	public void StartClient()
 	{
-		Initialize (false);
+		SelectedGameType = GameType.Client;
+		Initialize ();
 	}
 		
 	public void UseSimpleTextures()
@@ -56,28 +71,25 @@ public class GameContainer
 	}
 	
 	#region Singletone
-	
-	private static object _locker = new Object();
-	private static object _locker2 = new Object();
-	
+
+	private static object syncRoot = new Object();
+
+	public const GameType DefaultGameType = GameType.Single;
+	public static GameType SelectedGameType = DefaultGameType;
+
 	private static GameContainer _instance;
 	public static GameContainer Instance
 	{
 		get
 		{
-			lock(_locker)
-			{
-				if (_instance == null)
-					lock (_locker2)
+			if (_instance == null)
+				lock (syncRoot) 
 				{
-					_instance = new GameContainer();
+					_instance = new GameContainer ();
 				}
-			}
-			
 			return _instance;
-		}
-		
+		}		
 	}
-	
+
 	#endregion
 }
