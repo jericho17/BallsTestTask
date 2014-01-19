@@ -10,14 +10,12 @@ public class BallManager
 	private int _newBallId = 1;
 	
 	public List<Ball> Balls = new List<Ball>();
-	
-	
+		
 	public BallManager (BallFactory ballFactory)
 	{
 		_ballFactory = ballFactory;
 	}
-	
-	
+	 	
 	public int GetNewBallId()
 	{
 		return _newBallId++;

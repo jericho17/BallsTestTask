@@ -37,43 +37,39 @@ public class BallFactory
 	
 	public Ball GetSmall()
 	{
-		var ball = GetBallTemplate();
-		ball.BallType = BallType.Small;
-		ball.Score = 15;
-		//Hack to repail boxcollider size :( its too BIG
-		//var col = ball.Avatar.GetComponent<BoxCollider> ();
-		//col.size = new Vector2 (0.3f,0.3f);
+		var ball = GetBallTemplate(BallType.Small, 200);
 		AddSprite(ball, _textureContainer.GetBall32 ());
 		return ball;
 	}
 	
 	public Ball GetNormal()
 	{
-		var ball = GetBallTemplate ();
-		ball.BallType = BallType.Normal;
-		ball.Score = 10;
+		var ball = GetBallTemplate (BallType.Normal, 100);
 		AddSprite(ball, _textureContainer.GetBall64 ());	
 		return ball;
 	}
 	
 	public Ball GetBig()
 	{
-		var ball = GetBallTemplate();
-		ball.BallType = BallType.Big;
-		ball.Score = 5;
+		var ball = GetBallTemplate(BallType.Big, 50);
 		AddSprite(ball, _textureContainer.GetBall96 ());
 		return ball;
 	}
-	
-	private Ball GetBallTemplate()
+
+	public Ball GetVeryBig()
 	{
-		var ball = new Ball ();
-		
+		var ball = GetBallTemplate(BallType.Big, 25);
+		AddSprite(ball, _textureContainer.GetBall128 ());
+		return ball;
+	}
+	
+	private Ball GetBallTemplate(BallType ballType, int score)
+	{		
 		var avatar = new GameObject ("Ball");
-		
+		var ball = new Ball (ballType, avatar, score);
+
 		avatar.transform.position = new Vector3 (5, 15, 0);		
-		ball.Avatar = avatar;
-		
+
 		return ball;
 	}
 	

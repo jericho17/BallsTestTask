@@ -3,40 +3,47 @@ using UnityEngine;
 
 public class Ball
 {
-	public int Id;
-	public int Score;
-	public BallType BallType;
-	public GameObject Avatar;
-	public bool Destroyed = false;
-	public GameObject DestroySound;
+	public int Id { get; set;}
+	public int Score { get; private set;}
+	public BallType BallType { get; private set;}
+	public GameObject Avatar { get; private set;}
+	public bool Destroyed { get; set;}
+
+	private float _speed;
 	
-	public Ball ()
+	public Ball (BallType ballType, GameObject avatar, int score)
 	{
-		//DestroySound = new GameObject ();
-		
-		//DestroySound.audio = Resources.Load<AudioClip> ("BallSound");
+		BallType = ballType;
+		Avatar = avatar;
+		Score = score;
+		SetSpeed ();
+		Destroyed = false;
 	}
-	
-	public void Move()
+
+	private void SetSpeed()
 	{
-		float speed = 0;
-		
 		switch (BallType) 
 		{
 		case BallType.Small:
-			speed = 2;
+			_speed = 0.7f;
 			break;
 		case BallType.Normal:
-			speed = 1.5f;
+			_speed = 0.5f;
 			break;
 		case BallType.Big:
-			speed = 1;
+			_speed = 0.33f;
+			break;
+		case BallType.VeryBig:
+			_speed = 0.25f;
 			break;
 		default:
 			throw new ArgumentException();
 		}
-		
-		Avatar.transform.Translate (Vector3.down * Time.deltaTime*speed/3);
+	}
+	
+	public void Move()
+	{
+		Avatar.transform.Translate (Vector3.down * Time.deltaTime*_speed);
 	}
 	
 	public bool Check()

@@ -44,12 +44,7 @@ public class GameContainer
 	{
 		Initialize (false);
 	}
-	
-	public void UseBundleTextures()
-	{
-		TextureContainer.ChangeSkin (SkinType.Loaded);
-	}
-	
+		
 	public void UseSimpleTextures()
 	{
 		TextureContainer.ChangeSkin (SkinType.Simple);
