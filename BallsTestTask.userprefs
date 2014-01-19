@@ -1,0 +1,45 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Transport\Server\ServerTransport.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Helpers\CoroutineHelper.cs" Line="9" Column="2" />
+      <File FileName="Assets\Scripts\Helpers\ParsingHelper.cs" Line="18" Column="21" />
+      <File FileName="Assets\Scripts\Core\Ball\Ball.cs" Line="51" Column="2" />
+      <File FileName="Assets\Scripts\Core\Ball\BallFactory.cs" Line="89" Column="2" />
+      <File FileName="Assets\Scripts\Core\Ball\BallManager.cs" Line="47" Column="2" />
+      <File FileName="Assets\Scripts\Core\Ball\BallType.cs" Line="6" Column="2" />
+      <File FileName="Assets\Scripts\Core\Game\Environment.cs" Line="82" Column="2" />
+      <File FileName="Assets\Scripts\Core\Game\GameContainer.cs" Line="88" Column="2" />
+      <File FileName="Assets\Scripts\Core\Game\GameCore.cs" Line="71" Column="2" />
+      <File FileName="Assets\Scripts\Core\Game\GameEvent.cs" Line="37" Column="2" />
+      <File FileName="Assets\Scripts\Core\GameControllers\ClientController.cs" Line="30" Column="4" />
+      <File FileName="Assets\Scripts\Core\GameControllers\GameController.cs" Line="42" Column="2" />
+      <File FileName="Assets\Scripts\Core\GameControllers\IGameController.cs" Line="10" Column="2" />
+      <File FileName="Assets\Scripts\Core\GameControllers\ServerController.cs" Line="43" Column="2" />
+      <File FileName="Assets\Scripts\Core\GameEvents\AddBallEvent.cs" Line="51" Column="1" />
+      <File FileName="Assets\Scripts\Core\GameEvents\BallFellEvent.cs" Line="33" Column="2" />
+      <File FileName="Assets\Scripts\Core\GameEvents\ClickBallEvent.cs" Line="36" Column="2" />
+      <File FileName="Assets\Scripts\Core\GameEvents\EndGameEvent.cs" Line="29" Column="2" />
+      <File FileName="Assets\Scripts\Core\GameEvents\EventFactory.cs" Line="91" Column="2" />
+      <File FileName="Assets\Scripts\Core\GameEvents\GameEventType.cs" Line="7" Column="2" />
+      <File FileName="Assets\Scripts\Core\Textures\SkinType.cs" Line="8" Column="2" />
+      <File FileName="Assets\Scripts\Core\Textures\TextureContainer.cs" Line="84" Column="2" />
+      <File FileName="Assets\Scripts\Core\Textures\TextureGenerator.cs" Line="85" Column="2" />
+      <File FileName="Assets\Scripts\GUI\GameScreen.cs" Line="77" Column="2" />
+      <File FileName="Assets\Scripts\GUI\MainMenu.cs" Line="44" Column="2" />
+      <File FileName="Assets\Scripts\GUI\ViewManager.cs" Line="25" Column="2" />
+      <File FileName="Assets\Scripts\GUI\WatchScreen.cs" Line="12" Column="4" />
+      <File FileName="Assets\Scripts\GUI\GUIHelper\SizeHelper.cs" Line="13" Column="3" />
+      <File FileName="Assets\Scripts\Transport\ProtocolConverter.cs" Line="13" Column="2" />
+      <File FileName="Assets\Scripts\Transport\StateObject.cs" Line="10" Column="2" />
+      <File FileName="Assets\Scripts\Transport\Client\ClientGameProtocol.cs" Line="8" Column="2" />
+      <File FileName="Assets\Scripts\Transport\Client\ClientTransport.cs" Line="64" Column="5" />
+      <File FileName="Assets\Scripts\Transport\Server\ServerGameProtocol.cs" Line="9" Column="2" />
+      <File FileName="Assets\Scripts\Transport\Server\ServerTransport.cs" Line="64" Column="17" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
