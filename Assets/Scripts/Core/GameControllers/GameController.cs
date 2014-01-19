@@ -25,8 +25,16 @@ public class GameController : IGameController
 	
 	public void CreateNewGame()
 	{
-		throw new NotImplementedException ("HELL LOGIC LIVES THERE");
-		//_gameCore = new GameCore ();
+		throw new NotImplementedException ("HELL LOGIC LIVES THERE");	
+	}
+	
+	public void EndGame(bool hasErrors)
+	{
+		if (hasErrors)
+			Configurator.Instance.HasErrors = true;
+		
+		_gameCore.EndGame ();
+		ViewManager.BackToMenu ();
 	}
 	
 	public void BallClick(string ballName)

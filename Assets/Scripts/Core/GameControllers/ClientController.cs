@@ -11,7 +11,6 @@ public class ClientController : IGameController
 	{
 		_controller = controller;
 		_transport = new ClientTransport (this);
-		
 	}
 	
 	public void CreateNewGame ()
@@ -20,11 +19,15 @@ public class ClientController : IGameController
 		t.Start ();
 	}
 	
+	public void EndGame(bool hasErrors)
+	{
+		_controller.EndGame(hasErrors);
+	}
+	
 	private void AskUpdate()
 	{
 		while (!GameCore.GameEnded) 
 		{
-			Debug.Log("asking update");
 			_transport.Update();
 			System.Threading.Thread.Sleep(100);
 		}
@@ -47,6 +50,7 @@ public class ClientController : IGameController
 	
 	public void Update ()
 	{
+		Debug.Log ("Update");
 		_transport.Update ();
 		_controller.Update ();
 	}

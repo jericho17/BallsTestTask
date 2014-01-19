@@ -7,4 +7,5 @@ public interface IGameController
 	void AddGameEvent(string serializedEvent);
 	void BallClick(string ballName);
 	void Update();
+	void EndGame(bool hasErrors);
 }

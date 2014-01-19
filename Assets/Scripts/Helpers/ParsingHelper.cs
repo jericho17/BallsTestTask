@@ -8,6 +8,8 @@ public static class ParsingHelper
 	public const int EventTypeNumberSymbols=2;
 	public static int HeaderSize{get{return DataLengthNumberSymbols + EventTypeNumberSymbols;}}
 	
+	public static string ip;
+	
 	public static int GetLength(string message, int startIndex)
 	{
 		var lengthString = message.Substring (startIndex, DataLengthNumberSymbols);

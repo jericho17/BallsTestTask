@@ -15,7 +15,7 @@ public class Environment
 		_gameController = gameController;
 		_eventFactory = eventFactory;
 		_rnd = new Random (DateTime.Now.Millisecond);
-		_ballProbability = 4;
+		_ballProbability = 12;
 	}
 	
 	public void Update()
@@ -70,7 +70,7 @@ public class Environment
 	public void AddBall()
 	{
 		var addBallEvent = 
-			_eventFactory.GetAddBallEvent (GetBallType(), _rnd.Next(1,22), 14);
+			_eventFactory.GetAddBallEvent (GetBallType(), _rnd.Next(2,20), 14);
 		_gameController.AddGameEvent (addBallEvent);
 	}
 	

@@ -8,6 +8,7 @@ public class BallManager
 {
 	private BallFactory _ballFactory;
 	private int _newBallId = 1;
+	private object syncRoot = new object();
 	
 	public List<Ball> Balls = new List<Ball>();
 		
@@ -28,18 +29,22 @@ public class BallManager
 	
 	public void RemoveBall(int id)
 	{
-		var ball = Balls.SingleOrDefault (x => x.Id == id);
-		if (ball == null) return;
-		
-		ball.Destroy();
-		Balls.Remove (ball);
+		lock (syncRoot) 
+		{
+			var ball = Balls.SingleOrDefault (x => x.Id == id);
+			if (ball == null) return;
+			
+			ball.Destroy();
+			Balls.Remove (ball);
+		}
 	}
 	
 	public void MoveBalls()
 	{
-		foreach (var ball in Balls) 
-		{
-			ball.Move();
+		lock (Balls) {
+			foreach (var ball in Balls) {
+				ball.Move ();
+			}
 		}
 	}
 }

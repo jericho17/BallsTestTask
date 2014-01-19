@@ -21,6 +21,12 @@ public class ServerController : IGameController
 		throw new NotImplementedException ();
 	}
 	
+	public void EndGame(bool hasErrors)
+	{
+		_transport.StopListening ();
+		_controller.EndGame(hasErrors);
+	}
+	
 	public void AddGameEvent (GameEvent gameEvent)
 	{
 		_controller.AddGameEvent (gameEvent);

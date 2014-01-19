@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class TextureContainer
 {
 	private const SkinType DefaultSkinType = SkinType.Simple;
+	private const string ResPath = "Images/BallTextures/";
 
 	private Sprite _background;
 	private Sprite _greenBall32;
@@ -62,25 +63,25 @@ public class TextureContainer
 	{
 		_background = Resources.Load<Sprite> ("BackgroundImage");
 
-		_greenBall32  = Resources.Load<Sprite> ("green32");
-		_greenBall64  = Resources.Load<Sprite> ("green64");
-		_greenBall96  = Resources.Load<Sprite> ("green96");
-		_greenBall128 = Resources.Load<Sprite> ("green128");
+		_greenBall32  = Resources.Load<Sprite> (ResPath+"green32");
+		_greenBall64  = Resources.Load<Sprite> (ResPath+"green64");
+		_greenBall96  = Resources.Load<Sprite> (ResPath+"green96");
+		_greenBall128 = Resources.Load<Sprite> (ResPath+"green128");
 
-		_lightblueBall32  = Resources.Load<Sprite> ("lightblue32");
-		_lightblueBall64  = Resources.Load<Sprite> ("lightblue64");
-		_lightblueBall96  = Resources.Load<Sprite> ("lightblue96");
-		_lightblueBall128 = Resources.Load<Sprite> ("lightblue128");
+		_lightblueBall32  = Resources.Load<Sprite> (ResPath+"lightblue32");
+		_lightblueBall64  = Resources.Load<Sprite> (ResPath+"lightblue64");
+		_lightblueBall96  = Resources.Load<Sprite> (ResPath+"lightblue96");
+		_lightblueBall128 = Resources.Load<Sprite> (ResPath+"lightblue128");
 
-		_lightbrownBall32  = Resources.Load<Sprite> ("lightbrown32");
-		_lightbrownBall64  = Resources.Load<Sprite> ("lightbrown64");
-		_lightbrownBall96  = Resources.Load<Sprite> ("lightbrown96");
-		_lightbrownBall128 = Resources.Load<Sprite> ("lightbrown128");
+		_lightbrownBall32  = Resources.Load<Sprite> (ResPath+"lightbrown32");
+		_lightbrownBall64  = Resources.Load<Sprite> (ResPath+"lightbrown64");
+		_lightbrownBall96  = Resources.Load<Sprite> (ResPath+"lightbrown96");
+		_lightbrownBall128 = Resources.Load<Sprite> (ResPath+"lightbrown128");
 
-		_pinkBall32  = Resources.Load<Sprite> ("pink32");
-		_pinkBall64  = Resources.Load<Sprite> ("pink64");
-		_pinkBall96  = Resources.Load<Sprite> ("pink96");
-		_pinkBall128 = Resources.Load<Sprite> ("pink128");
+		_pinkBall32  = Resources.Load<Sprite> (ResPath+"pink32");
+		_pinkBall64  = Resources.Load<Sprite> (ResPath+"pink64");
+		_pinkBall96  = Resources.Load<Sprite> (ResPath+"pink96");
+		_pinkBall128 = Resources.Load<Sprite> (ResPath+"pink128");
 	}
 			
 	private IEnumerator GenerateTextures ()

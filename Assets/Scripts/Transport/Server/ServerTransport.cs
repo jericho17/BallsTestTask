@@ -10,6 +10,14 @@ public class ServerTransport
 {
 	private IGameController _controller;
 	
+	private const int MaxConnections = 10;
+	private const int DefaultPort = 843;
+	private const int MessageSize = 1024;
+	
+	private Thread _executer;
+	private bool _aborted;
+	private Socket _listener;
+	
 	public static ManualResetEvent allDone = new ManualResetEvent(false);
 	
 	
@@ -20,69 +28,82 @@ public class ServerTransport
 	
 	public void StartListening()
 	{
-		var t = new System.Threading.Thread (StartListeningInternal2);
-		t.Start ();
+		try 
+		{
+			_executer = new System.Threading.Thread (StartListeningInternal);
+			_executer.Start ();
+			_aborted = false;			
+		} 
+		catch (Exception ex) 
+		{
+			Debug.Log(ex);
+		}
 	}
 	
-	private void StartListeningInternal2()
+	public void StopListening()
 	{
-		byte[] bytes = new Byte[1024];
+		_aborted = true;
+		try 
+		{
+			_listener.Close();
+			_executer.Abort ();
+		}
+		catch (Exception ex) 
+		{
+			Debug.Log(ex);
+		}
+	}
+	
+	private void StartListeningInternal()
+	{
+		byte[] bytes = new Byte[MessageSize];
 		
-		// Establish the local endpoint for the socket.
-		// Dns.GetHostName returns the name of the 
-		// host running the application.
-		IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-		IPAddress ipAddress = ipHostInfo.AddressList[0];
-		IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 843);
-		
-		// Create a TCP/IP socket.
-		Socket listener = new Socket(AddressFamily.InterNetwork,
-		                             SocketType.Stream, ProtocolType.Tcp );
-		
-		// Bind the socket to the local endpoint and 
-		// listen for incoming connections.
-		try {
-			listener.Bind(localEndPoint);
-			listener.Listen(10);
+		try 
+		{
+			var localEndPoint = new IPEndPoint(IpHelper.Ip, DefaultPort);
 			
-			// Start listening for connections.
-			while (true) {
-				Console.WriteLine("Waiting for a connection...");
-				// Program is suspended while waiting for an incoming connection.
-				Socket handler = listener.Accept();
+			_listener = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			_listener.Bind(localEndPoint);
+			_listener.Listen(MaxConnections);			
+			
+			while (!_aborted) 
+			{
+				Socket handler = _listener.Accept();
 				var data = "";
 				
-				// An incoming connection needs to be processed.
-				while (true) {
-					try {
+				while (!_aborted) 
+				{
+					try 
+					{
 						bytes = new byte[1024];
-						int bytesRec = handler.Receive(bytes);
+						var bytesRec = handler.Receive(bytes);
 						data += Encoding.ASCII.GetString(bytes,0,bytesRec);
-						if (data.IndexOf("<EOF>") > -1) {
+						
+						if (data.IndexOf("<EOF>") > -1) 						
 							break;
-						}	
-					} catch (Exception ex) {
+					} 
+					catch (Exception ex) 
+					{
 						Debug.Log(ex);
 					}
-					
 				}
-				
-				// Show the data on the console.
-				Console.WriteLine( "Text received : {0}", data);
 				
 				// Echo the data back to the client.
 				byte[] msg = Encoding.ASCII.GetBytes(data);
 				if (data.Contains("Update"))
 				{
-					try {
-						var gameEventId = int.Parse(data.Split('#')[1]);
-						var gameEvent = _controller.GameCore.ProcessedGameEvents.SingleOrDefault(x=>x.Id == gameEventId+1);
-						var serialized = gameEvent!=null
-							?gameEvent.Serialize()
+					try 
+					{
+						var lastGameEventId = int.Parse(data.Split('#')[1]);
+						var actualEventId = _controller.GameCore.ProcessedGameEvents.SingleOrDefault(x=>x.Id == lastGameEventId+1);
+						var serialized = actualEventId!=null
+							?"Update"+actualEventId.Serialize()
 								:"";
 						
-						handler.Send(Encoding.ASCII.GetBytes("Update"+gameEvent.Serialize()+"<EOF>"));	
-					} catch (Exception ex) {
+						handler.Send(Encoding.ASCII.GetBytes(serialized+"<EOF>"));	
+					} 
+					catch (Exception ex) 
+					{
 						Debug.Log(ex.ToString());
 					}
 					
@@ -92,54 +113,13 @@ public class ServerTransport
 				handler.Close();
 			}
 			
-		} catch (Exception e) {
-			Console.WriteLine(e.ToString());
-		}
-	}
-	
-	private void StartListeningInternal()
-	{
-		// Establish the local endpoint for the socket.
-		// The DNS name of the computer
-		// running the listener is "host.contoso.com".
-		IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-		IPAddress ipAddress = ipHostInfo.AddressList[0];
-		IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 843);
-		
-		// Create a TCP/IP socket.
-		Socket listener = new Socket(AddressFamily.InterNetwork,
-		                             SocketType.Stream, ProtocolType.Tcp);
-		
-		// Bind the socket to the local endpoint and listen for incoming connections.
-		try
+			_listener.Shutdown(SocketShutdown.Both);
+			_listener.Close();
+		} 
+		catch (Exception e) 
 		{
-			listener.Bind(localEndPoint);
-			listener.Listen(100);
-			
-			while (true)
-			{
-				// Set the event to nonsignaled state.
-				allDone.Reset();
-				
-				// Start an asynchronous socket to listen for connections.
-				Console.WriteLine("Waiting for a connection...");
-				listener.BeginAccept(
-					new AsyncCallback(AcceptCallback),
-					listener);
-				
-				// Wait until a connection is made before continuing.
-				allDone.WaitOne();
-			}
-			
+			Debug.Log(e);
 		}
-		catch (Exception e)
-		{
-			Console.WriteLine(e.ToString());
-		}
-		
-		Console.WriteLine("\nPress ENTER to continue...");
-		Console.Read();
-		
 	}
 	
 	public void AcceptCallback(IAsyncResult ar)
@@ -148,11 +128,11 @@ public class ServerTransport
 		allDone.Set();
 		
 		// Get the socket that handles the client request.
-		Socket listener = (Socket)ar.AsyncState;
-		Socket handler = listener.EndAccept(ar);
+		var listener = (Socket)ar.AsyncState;
+		var handler = listener.EndAccept(ar);
 		
 		// Create the state object.
-		StateObject state = new StateObject();
+		var state = new StateObject();
 		state.WorkSocket = handler;
 		handler.BeginReceive(state.Buffer, 0, StateObject.BufferSize, 0,
 		                     new AsyncCallback(ReadCallback), state);
@@ -160,12 +140,9 @@ public class ServerTransport
 	
 	public void ReadCallback(IAsyncResult ar)
 	{
-		String content = String.Empty;
-		
-		// Retrieve the state object and the handler socket
-		// from the asynchronous state object.
-		StateObject state = (StateObject)ar.AsyncState;
-		Socket handler = state.WorkSocket;
+		var content = String.Empty;
+		var state = (StateObject)ar.AsyncState;
+		var handler = state.WorkSocket;
 		
 		// Read data from the client socket. 
 		int bytesRead = handler.EndReceive(ar);
@@ -212,19 +189,17 @@ public class ServerTransport
 		try
 		{
 			// Retrieve the socket from the state object.
-			Socket handler = (Socket)ar.AsyncState;
+			var handler = (Socket)ar.AsyncState;
 			
 			// Complete sending the data to the remote device.
 			int bytesSent = handler.EndSend(ar);
-			Console.WriteLine("Sent {0} bytes to client.", bytesSent);
 			
 			handler.Shutdown(SocketShutdown.Both);
-			handler.Close();
-			
+			handler.Close();			
 		}
 		catch (Exception e)
 		{
-			Console.WriteLine(e.ToString());
+			Debug.Log(e);
 		}
 	}
 }

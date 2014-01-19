@@ -11,8 +11,10 @@ public class GameCore
 	public BallManager BallManager;
 	public bool GameEnded;
 	
+	private object locker = new object ();
+	
 	public int Score;
-	public int LastEventId;
+	public int LastEventId = -1;
 	private int _newEventId = 0;
 	
 	public GameCore (BallManager ballManager)
@@ -35,8 +37,10 @@ public class GameCore
 	
 	public void Update()
 	{
-		BallManager.MoveBalls ();
+		if (GameEnded)
+			return;
 		
+		BallManager.MoveBalls ();
 		ProccesGameEvents ();
 	}
 	
@@ -57,15 +61,18 @@ public class GameCore
 	
 	void ProccesGameEvents ()
 	{
-		if (GameEvents.Any ()) 
+		lock (locker) 
 		{
-			foreach (var gameEvent in GameEvents) 
+			if (GameEvents.Any ()) 
 			{
-				gameEvent.Execute ();
-				ProcessedGameEvents.Add(gameEvent);
+				foreach (var gameEvent in GameEvents) 
+				{
+					gameEvent.Execute ();
+					ProcessedGameEvents.Add(gameEvent);
+				}
 			}
+			
+			GameEvents.Clear ();
 		}
-		
-		GameEvents.Clear ();
 	}
 }

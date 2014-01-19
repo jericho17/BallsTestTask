@@ -4,22 +4,28 @@ public class ViewManager
 {
 	private const string GameScreenName = "GameScreen";
 	private const string MainMenuName = "MainMenu";
-	private const string WatchScreenName = "WatchScreen";
 	
-	public static void NewGame()
+	public static void LocalGame()
 	{
-		GameScreen.IsServer = true;
+		Configurator.Instance.SetLocal();
+		Application.LoadLevel(GameScreenName);
+	}
+	
+	public static void StreamingGame()
+	{
+		Configurator.Instance.SetStreaming();
 		Application.LoadLevel(GameScreenName);
 	}
 	
 	public static void WatchGame()
 	{
-		GameScreen.IsServer = false;
+		Configurator.Instance.SetWatching();
 		Application.LoadLevel(GameScreenName);
 	}
 	
 	public static void BackToMenu()
 	{
+		Configurator.Instance.EndGame ();
 		Application.LoadLevel(MainMenuName); 
 	}
 }
