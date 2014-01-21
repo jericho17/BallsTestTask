@@ -10,7 +10,9 @@ public class ClientController : IGameController
 	public ClientController (IGameController controller)
 	{
 		_controller = controller;
-		_transport = new ClientTransport (this);
+
+		var clientProtocol = new ClientProtocol (this);
+		_transport = new ClientTransport (clientProtocol);
 	}
 	
 	public void CreateNewGame ()

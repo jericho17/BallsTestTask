@@ -11,7 +11,9 @@ public class ServerController : IGameController
 	public ServerController (IGameController controller)
 	{
 		_controller = controller;
-		_transport = new ServerTransport (this);
+
+		var serverProtocol = new ServerProtocol (this);
+		_transport = new ServerTransport (serverProtocol);
 		
 		_transport.StartListening ();
 	}

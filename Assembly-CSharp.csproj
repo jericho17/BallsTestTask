@@ -76,12 +76,11 @@
      <Compile Include="Assets\Scripts\Helpers\IpHelper.cs" />
      <Compile Include="Assets\Scripts\Helpers\ParsingHelper.cs" />
      <Compile Include="Assets\Scripts\Helpers\SizeHelper.cs" />
-     <Compile Include="Assets\Scripts\Transport\Client\ClientGameProtocol.cs" />
+     <Compile Include="Assets\Scripts\Transport\Client\ClientProtocol.cs" />
      <Compile Include="Assets\Scripts\Transport\Client\ClientTransport.cs" />
-     <Compile Include="Assets\Scripts\Transport\ProtocolConverter.cs" />
-     <Compile Include="Assets\Scripts\Transport\Server\ServerGameProtocol.cs" />
+     <Compile Include="Assets\Scripts\Transport\Server\ServerProtocol.cs" />
      <Compile Include="Assets\Scripts\Transport\Server\ServerTransport.cs" />
-     <Compile Include="Assets\Scripts\Transport\StateObject.cs" />
+     <Compile Include="Assets\Scripts\Transport\Transport.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
