@@ -27,25 +27,7 @@ public class GameScreen : MonoBehaviour
 
 		Configurator.Instance.SetLocal ();
 	}
-	
-	/*	//TODO: HAVE TO INIT BG WITH THIS STUFF
-	private void InitBackground()
-	{
-		var game = GameContainer.Instance;
-		var background = game.TextureContainer.GetBackground ();
 		
-		var bg = new GameObject ("Background");
-		var sr = bg.AddComponent<SpriteRenderer> ();
-		sr.sprite = background;
-		sr.transform.localScale = new Vector3 (2,2,0);
-		bg.transform.position = new Vector3 (11f, 7f, 0);
-	}
-*/
-	void OnApplicationQuit() 
-	{
-		Configurator.Instance.EndGame ();
-	}
-	
 	void Update()
 	{
 		_container.Update ();

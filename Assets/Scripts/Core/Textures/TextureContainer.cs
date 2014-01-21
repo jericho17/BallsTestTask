@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class TextureContainer
 {
-	private const SkinType DefaultSkinType = SkinType.Simple;
+	private const SkinType DefaultSkinType = SkinType.Bundles;
 	private const string ResPath = "Images/BallTextures/";
 
 	private Sprite _background;
@@ -39,17 +39,34 @@ public class TextureContainer
 		ChangeSkin (DefaultSkinType);
 	}
 	
-	public void ChangeSkin( SkinType skinType)
+	public void ChangeSkin(SkinType skinType)
 	{
 		switch (skinType) 
 		{
 		case SkinType.Simple:
 		{
+			Debug.Log("Resources skin selected");
 			UseTexturesFromResources();
+			break;
+		}
+		case SkinType.Bundles:
+		{
+			Debug.Log("Bundles skin selected");
+			if(Bundles.Initialized)
+			{
+				UseTexturesFromBundle();	
+			}
+			else
+			{
+				Debug.Log("Cant load bundle. Check bundles directory location");
+				UseTexturesFromResources();
+			}
+
 			break;
 		}
 		case SkinType.Generated:
 		{
+			Debug.Log("Generated textures skin selected");
 			GenerateTextures();
 			break;
 		}
@@ -83,6 +100,29 @@ public class TextureContainer
 		_pinkBall96  = Resources.Load<Sprite> (ResPath+"pink96");
 		_pinkBall128 = Resources.Load<Sprite> (ResPath+"pink128");
 	}
+
+	private void UseTexturesFromBundle()	
+	{ 	
+		_greenBall32  = Bundles.Load<Sprite> ("green32");
+		_greenBall64  = Bundles.Load<Sprite> ("green64");
+		_greenBall96  = Bundles.Load<Sprite> ("green96");
+		_greenBall128 = Bundles.Load<Sprite> ("green128");
+		
+		_lightblueBall32  = Bundles.Load<Sprite> ("lightblue32");
+		_lightblueBall64  = Bundles.Load<Sprite> ("lightblue64");
+		_lightblueBall96  = Bundles.Load<Sprite> ("lightblue96");
+		_lightblueBall128 = Bundles.Load<Sprite> ("lightblue128");
+		
+		_lightbrownBall32  = Bundles.Load<Sprite> ("lightbrown32");
+		_lightbrownBall64  = Bundles.Load<Sprite> ("lightbrown64");
+		_lightbrownBall96  = Bundles.Load<Sprite> ("lightbrown96");
+		_lightbrownBall128 = Bundles.Load<Sprite> ("lightbrown128");
+		
+		_pinkBall32  = Bundles.Load<Sprite> ("pink32");
+		_pinkBall64  = Bundles.Load<Sprite> ("pink64");
+		_pinkBall96  = Bundles.Load<Sprite> ("pink96");
+		_pinkBall128 = Bundles.Load<Sprite> ("pink128");
+	}
 			
 	private IEnumerator GenerateTextures ()
 	{
@@ -113,7 +153,7 @@ public class TextureContainer
 
 	private Sprite GetRandom32()
 	{
-		var num = UnityEngine.Random.Range (0, 3);
+		var num = UnityEngine.Random.Range (0, 4);
 		switch (num) 
 		{
 		case 0:
